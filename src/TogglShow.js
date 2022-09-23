@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useState } from "react";
 
 export const TogglShow = ({ togglApiKey }) => {
@@ -54,27 +55,6 @@ export const TogglShow = ({ togglApiKey }) => {
         return csv;
     }
 
-    const dateToString = (d) => {
-        const dt = new Date(d);
-        let mm = dt.getMonth() + 1;
-        let dd = dt.getDate();
-        if (dd < 10) dd = '0' + dd;
-        if (mm < 10) mm = '0' + mm;
-        return dt.getFullYear() + '.' + mm + '.' + dd + ' ' + dt.toLocaleTimeString();
-    }
-
-    const calcDuration = (msecDuration) => {
-        let dur = msecDuration;
-        const h = Math.floor( dur / 3600000);
-        dur -= h * 3600000;
-        let m = Math.floor( dur / 60000);
-        dur -= m * 60000;
-        let s = dur / 1000;
-        if (s < 10) s = '0' + s;
-        if (m < 10) m = '0' + m;
-        return h + ':' + m + ':' + s;
-    }
-
     const run = async () => {
         const { start, end } = timesMonth();
         const json = await fetchTimes(start, end);
@@ -83,10 +63,9 @@ export const TogglShow = ({ togglApiKey }) => {
         const projectsJson = await fetchProjects();
         json.forEach(row => {
             row.projectName = projectsJson.find(proj => proj.id === row.project_id).name;
-            row.start_time = dateToString(row.start);
-            row.stop_time = dateToString(row.stop);
-            const msecDuration = new Date(row.stop) - new Date(row.start)
-            row.duration_time = calcDuration(msecDuration);
+            row.start_time = moment(row.start).format('YYYY.MM.DD HH:mm:ss');
+            row.stop_time = moment(row.stop).format('YYYY.MM.DD HH:mm:ss');
+            row.duration_time = moment.utc(moment(row.stop).diff(moment(row.start))).format('HH:mm:ss');
         })
         setProjectNames(projectsJson);
         setTimeEntries(json);
