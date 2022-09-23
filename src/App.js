@@ -16,9 +16,7 @@ function App() {
         </p>
       </header>
       <TextKey name="Toggl API key" value={togglApiKey} setValue={setTogglApiKey}></TextKey>
-      <p>
-        <TogglShow togglApiKey={togglApiKey}></TogglShow>
-      </p>
+      <TogglShow togglApiKey={togglApiKey}></TogglShow>
     </div>
   );
 }
