@@ -8,12 +8,12 @@ function App() {
 
   return (
     <div>
-      <header className="App-header">
-        <p>
-          Toggl Reports
-        </p>
-      </header>
-      <TextKey name="Toggl API key" value={togglApiKey} setValue={setTogglApiKey}></TextKey>
+      <h1>
+        Toggl Reports
+      </h1>
+      <p style={{ textAlign: 'right' }}>
+        <TextKey name="Toggl API key" value={togglApiKey} setValue={setTogglApiKey}></TextKey>
+      </p>
       <TogglShow togglApiKey={togglApiKey}></TogglShow>
     </div>
   );
