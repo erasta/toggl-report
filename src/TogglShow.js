@@ -54,35 +54,44 @@ export const TogglShow = ({ togglApiKey }) => {
         header = header.filter(x => fields.includes(x));
     }
 
+    const projects = Array.from(new Set(timeEntries.map(x => x.project_id)));
+    // const times4projects = projects.map(project => {
+    //     const times = timeEntries.filter(x => x.project_id === project);
+    //     return { project, times };
+    // });
+
     return (
         <div>
             <button onClick={() => run()}>Get</button>
-            {timeEntries.length ?
-                <table border={1}>
-                    <thead>
-                        <tr>
-                            {header.map(x => (
-                                <th key={x}>
-                                    {x}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timeEntries.map((row, i) => (
-                            <tr key={i}>
-                                {
-                                    header.map(fieldName => (
-                                        <td key={fieldName}>
-                                            {row[fieldName]}
-                                        </td>
-                                    ))
-                                }
+            {projects.map(project => {
+                const times = timeEntries.filter(x => x.project_id === project);
+                return (
+                    <table border={1} key={project}>
+                        <thead>
+                            <tr>
+                                {header.map(x => (
+                                    <th key={x}>
+                                        {x}
+                                    </th>
+                                ))}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                : null}
+                        </thead>
+                        <tbody>
+                            {times.map((row, i) => (
+                                <tr key={i}>
+                                    {
+                                        header.map(fieldName => (
+                                            <td key={fieldName}>
+                                                {row[fieldName]}
+                                            </td>
+                                        ))
+                                    }
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )
+            })}
         </div>
     )
 }
