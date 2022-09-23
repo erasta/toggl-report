@@ -3,6 +3,7 @@ import './App.css';
 import { TextKey } from './TextKey.js';
 import { useState } from 'react';
 import useLocalStorage from 'use-local-storage';
+import { TogglShow } from './TogglShow.js';
 
 function App() {
   const [togglApiKey, setTogglApiKey] = useLocalStorage("togglApiKey", "");
@@ -15,6 +16,9 @@ function App() {
         </p>
       </header>
       <TextKey name="Toggl API key" value={togglApiKey} setValue={setTogglApiKey}></TextKey>
+      <p>
+        <TogglShow togglApiKey={togglApiKey}></TogglShow>
+      </p>
     </div>
   );
 }
