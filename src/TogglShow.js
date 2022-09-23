@@ -45,14 +45,14 @@ export const TogglShow = ({ togglApiKey }) => {
         console.log(Object.keys(json[0]).join(','));
         console.log(Object.values(json[0]).join(','));
         setTimeEntries(json);
-        const fields = ['start', 'stop', 'description', 'duration'];
-        console.log(jsonToCsv(json, fields));
+        console.log(jsonToCsv(json, false));
     }
 
     let header = timeEntries.length ? Object.keys(timeEntries[0]) : [];
-    // if (fields) {
-    //     header = header.filter(x => fields.includes(x));
-    // }
+    const fields = ['start', 'stop', 'description', 'duration', 'project_id'];
+    if (fields) {
+        header = header.filter(x => fields.includes(x));
+    }
 
     return (
         <div>
