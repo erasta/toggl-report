@@ -55,10 +55,6 @@ export const TogglShow = ({ togglApiKey }) => {
     }
 
     const projects = Array.from(new Set(timeEntries.map(x => x.project_id)));
-    // const times4projects = projects.map(project => {
-    //     const times = timeEntries.filter(x => x.project_id === project);
-    //     return { project, times };
-    // });
 
     return (
         <div>

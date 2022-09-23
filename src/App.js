@@ -1,7 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
 import { TextKey } from './TextKey.js';
-import { useState } from 'react';
 import useLocalStorage from 'use-local-storage';
 import { TogglShow } from './TogglShow.js';
 
