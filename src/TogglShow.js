@@ -1,4 +1,5 @@
 import moment from "moment";
+import 'moment-duration-format';
 import { useState } from "react";
 
 export const TogglShow = ({ togglApiKey }) => {
@@ -85,10 +86,14 @@ export const TogglShow = ({ togglApiKey }) => {
             <button onClick={() => run()}>Get Time Entries!</button>
             {projects.map(project => {
                 const times = timeEntries.filter(x => x.project_id === project);
+                const allDiffs = times.map(row => moment(row.stop).diff(moment(row.start)));
+                const totalTime = allDiffs.reduce((pv, cv) => pv + cv, 0);
                 const projectName = projectNames.find(proj => proj.id === project).name;
                 return (
                     <div key={project}>
                         <h4>{projectName}</h4>
+                        total time: {moment.duration(totalTime).format('HH:mm:ss')}&nbsp;
+                        as hours: {moment.duration(totalTime).asHours()}
                         <table border={1}>
                             <thead>
                                 <tr>
