@@ -54,6 +54,27 @@ export const TogglShow = ({ togglApiKey }) => {
         return csv;
     }
 
+    const dateToString = (d) => {
+        const dt = new Date(d);
+        let mm = dt.getMonth() + 1;
+        let dd = dt.getDate();
+        if (dd < 10) dd = '0' + dd;
+        if (mm < 10) mm = '0' + mm;
+        return dt.getFullYear() + '.' + mm + '.' + dd + ' ' + dt.toLocaleTimeString();
+    }
+
+    const calcDuration = (msecDuration) => {
+        let dur = msecDuration;
+        const h = Math.floor( dur / 3600000);
+        dur -= h * 3600000;
+        let m = Math.floor( dur / 60000);
+        dur -= m * 60000;
+        let s = dur / 1000;
+        if (s < 10) s = '0' + s;
+        if (m < 10) m = '0' + m;
+        return h + ':' + m + ':' + s;
+    }
+
     const run = async () => {
         const { start, end } = timesMonth();
         const json = await fetchTimes(start, end);
@@ -62,30 +83,34 @@ export const TogglShow = ({ togglApiKey }) => {
         const projectsJson = await fetchProjects();
         json.forEach(row => {
             row.projectName = projectsJson.find(proj => proj.id === row.project_id).name;
+            row.start_time = dateToString(row.start);
+            row.stop_time = dateToString(row.stop);
+            const msecDuration = new Date(row.stop) - new Date(row.start)
+            row.duration_time = calcDuration(msecDuration);
         })
         setProjectNames(projectsJson);
         setTimeEntries(json);
         console.log(jsonToCsv(json, false));
     }
 
-    let header = timeEntries.length ? Object.keys(timeEntries[0]) : [];
-    const fields = ['start', 'stop', 'description', 'duration'];
-    if (fields) {
-        header = header.filter(x => fields.includes(x));
-    }
+    // let header = timeEntries.length ? Object.keys(timeEntries[0]) : [];
+    const header = ['description', 'start_time', 'stop_time', 'duration_time'];
+    // if (fields) {
+    //     header = header.filter(x => fields.includes(x));
+    // }
 
     const projects = Array.from(new Set(timeEntries.map(x => x.project_id)));
 
     return (
         <div>
-            <button onClick={() => run()}>Get</button>
+            <button onClick={() => run()}>Get Time Entries!</button>
             {projects.map(project => {
                 const times = timeEntries.filter(x => x.project_id === project);
                 const projectName = projectNames.find(proj => proj.id === project).name;
                 return (
-                    <>
-                        <h3>{projectName}</h3>
-                        <table border={1} key={project}>
+                    <div key={project}>
+                        <h4>{projectName}</h4>
+                        <table border={1}>
                             <thead>
                                 <tr>
                                     {header.map(x => (
@@ -109,7 +134,7 @@ export const TogglShow = ({ togglApiKey }) => {
                                 ))}
                             </tbody>
                         </table>
-                    </>
+                    </div>
                 )
             })}
         </div>
