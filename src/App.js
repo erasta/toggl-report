@@ -1,23 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import { TextKey } from './TextKey.js';
+import { useState } from 'react';
+import useLocalStorage from 'use-local-storage';
 
 function App() {
+  const [togglApiKey, setTogglApiKey] = useLocalStorage("togglApiKey", "");
+
   return (
-    <div className="App">
+    <div>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Toggl Reports
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <TextKey name="Toggl API key" value={togglApiKey} setValue={setTogglApiKey}></TextKey>
     </div>
   );
 }
