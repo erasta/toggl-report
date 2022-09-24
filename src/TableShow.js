@@ -1,3 +1,9 @@
+export const FieldNameShow = (fieldName) => {
+    return fieldName.toLowerCase().replace(/([-_][a-z])/g, group =>
+        group.toUpperCase().replace('-', ' ').replace('_', ' ')
+    ).replace(/(^[a-z])/g, group => group.toUpperCase());
+}
+
 export const TableShow = ({ fields, rows }) => {
     return (
         <table border={1}>
@@ -5,7 +11,7 @@ export const TableShow = ({ fields, rows }) => {
                 <tr>
                     {fields.map(x => (
                         <th key={x}>
-                            {x}
+                            {FieldNameShow(x)}
                         </th>
                     ))}
                 </tr>

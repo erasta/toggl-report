@@ -1,7 +1,7 @@
 import moment from "moment";
 import 'moment-duration-format';
 import { EmailCsv } from "./EmailCsv.js";
-import { TableShow } from "./TableShow.js";
+import { FieldNameShow, TableShow } from "./TableShow.js";
 
 export const ProjectShow = ({ projectId, projectName, times }) => {
     const header = ['description', 'start_time', 'stop_time', 'duration_time', 'hours_number'];
@@ -17,7 +17,7 @@ export const ProjectShow = ({ projectId, projectName, times }) => {
             header = header.filter(x => fields.includes(x));
         }
         const csvLines = [
-            header.join(','), // header row first
+            header.map(FieldNameShow).join(','), // header row first
             ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
         ];
         return csvLines;
@@ -25,8 +25,6 @@ export const ProjectShow = ({ projectId, projectName, times }) => {
 
     const makeCsv = () => {
         const lines = [];
-        // lines.push(`Working hours for,${projectName}`);
-        // lines.push(``);
         lines.push(...jsonToCsvLines(times, header));
         lines.push(``);
         lines.push(`total time:,,,${totalTimeForm},${totalTimeHours}`);
@@ -36,11 +34,11 @@ export const ProjectShow = ({ projectId, projectName, times }) => {
 
     const downloadTxtFile = () => {
         const element = document.createElement("a");
-        element.href = URL.createObjectURL(new Blob([makeCsv()], {type: 'text/plain'}));
+        element.href = URL.createObjectURL(new Blob([makeCsv()], { type: 'text/plain' }));
         element.download = `${projectName}.csv`;
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
-      }
+    }
 
     return (
         <div key={projectId} style={{ border: '2px solid grey', paddingBlockEnd: '1em', margin: 2 }}>
