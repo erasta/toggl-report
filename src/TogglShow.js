@@ -1,6 +1,7 @@
 import moment from "moment";
 import 'moment-duration-format';
 import { useState } from "react";
+import { TableShow } from "./TableShow.js";
 
 export const TogglShow = ({ togglApiKey }) => {
     const [timeEntries, setTimeEntries] = useState([]);
@@ -94,30 +95,7 @@ export const TogglShow = ({ togglApiKey }) => {
                         <h4>{projectName}</h4>
                         total time: {moment.duration(totalTime).format('HH:mm:ss')}&nbsp;
                         as hours: {moment.duration(totalTime).asHours()}
-                        <table border={1}>
-                            <thead>
-                                <tr>
-                                    {header.map(x => (
-                                        <th key={x}>
-                                            {x}
-                                        </th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {times.map((row, i) => (
-                                    <tr key={i}>
-                                        {
-                                            header.map(fieldName => (
-                                                <td key={fieldName}>
-                                                    {row[fieldName]}
-                                                </td>
-                                            ))
-                                        }
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        <TableShow fields={header} rows={times}></TableShow>
                     </div>
                 )
             })}
