@@ -39,17 +39,4 @@ export class TogglFetch {
         })
         return { times, projects };
     }
-
-    static jsonToCsv(items, fields) {
-        const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-        let header = Object.keys(items[0]);
-        if (fields) {
-            header = header.filter(x => fields.includes(x));
-        }
-        const csv = [
-            header.join(','), // header row first
-            ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-        ].join('\n');
-        return csv;
-    }
 }
