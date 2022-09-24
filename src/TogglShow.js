@@ -8,7 +8,6 @@ export const TogglShow = ({ togglApiKey, range }) => {
     const [timeEntries, setTimeEntries] = useState([]);
     const [projectNames, setProjectNames] = useState([]);
 
-
     useEffect(() => {
         if (range) {
             (async () => {
@@ -23,8 +22,11 @@ export const TogglShow = ({ togglApiKey, range }) => {
         }
     }, [range, togglApiKey]);
 
+    const findProjectName = (id) => projectNames.find(proj => proj.id === id).name;
+
     const header = ['description', 'start_time', 'stop_time', 'duration_time'];
     const shownProjects = Array.from(new Set(timeEntries.map(x => x.project_id)));
+    shownProjects.sort((a, b) => findProjectName( a).localeCompare(findProjectName(b)));
 
     return (
         <div>
@@ -32,10 +34,9 @@ export const TogglShow = ({ togglApiKey, range }) => {
                 const times = timeEntries.filter(x => x.project_id === project);
                 const allDiffs = times.map(row => moment(row.stop).diff(moment(row.start)));
                 const totalTime = allDiffs.reduce((pv, cv) => pv + cv, 0);
-                const projectName = projectNames.find(proj => proj.id === project).name;
                 return (
                     <div key={project}>
-                        <h4>{projectName}</h4>
+                        <h4>{findProjectName(project)}</h4>
                         total time: {moment.duration(totalTime).format('HH:mm:ss')}&nbsp;
                         as hours: {moment.duration(totalTime).asHours()}
                         <TableShow fields={header} rows={times}></TableShow>
