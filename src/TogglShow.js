@@ -2,10 +2,13 @@ import moment from "moment";
 import 'moment-duration-format';
 import { useState } from "react";
 import { TableShow } from "./TableShow.js";
+import { TogglFetch } from "./TogglFetch.js";
 
 export const TogglShow = ({ togglApiKey }) => {
     const [timeEntries, setTimeEntries] = useState([]);
     const [projectNames, setProjectNames] = useState([]);
+
+    const toggl = new TogglFetch(togglApiKey);
 
     const timesMonth = (monthOffset = 0) => {
         const d = new Date();
@@ -14,34 +17,6 @@ export const TogglShow = ({ togglApiKey }) => {
         const start = new Date(Date.UTC(y, m, 1)).toISOString().substring(0, 10);
         const end = new Date(Date.UTC(y, m + 1, 1)).toISOString().substring(0, 10);
         return { start, end };
-    }
-
-    const auth = btoa(togglApiKey + `:api_token`);
-
-    const fetchTimes = async (start, end) => {
-        const geturl = `https://api.track.toggl.com/api/v9/me/time_entries?start_date=${start}&end_date=${end}`;
-        const resp = await fetch(geturl, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Basic ${auth}`
-            },
-        });
-        const json = await resp.json();
-        return json;
-    }
-
-    const fetchProjects = async () => {
-        const geturl = `https://api.track.toggl.com/api/v9/me/projects`;
-        const resp = await fetch(geturl, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Basic ${auth}`
-            },
-        });
-        const json = await resp.json();
-        return json;
     }
 
     const jsonToCsv = (items, fields) => {
@@ -59,10 +34,10 @@ export const TogglShow = ({ togglApiKey }) => {
 
     const run = async () => {
         const { start, end } = timesMonth();
-        const json = await fetchTimes(start, end);
+        const json = await toggl.fetchTimes(start, end);
         console.log(Object.keys(json[0]).join(','));
         console.log(Object.values(json[0]).join(','));
-        const projectsJson = await fetchProjects();
+        const projectsJson = await toggl.fetchProjects();
         json.forEach(row => {
             row.projectName = projectsJson.find(proj => proj.id === row.project_id).name;
             row.start_time = moment(row.start).format('YYYY.MM.DD HH:mm:ss');
