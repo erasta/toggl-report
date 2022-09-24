@@ -22,7 +22,6 @@ export const TogglShow = ({ togglApiKey, range }) => {
 
     const findProjectName = (id) => projectNames.find(proj => proj.id === id).name;
 
-    const header = ['description', 'start_time', 'stop_time', 'duration_time'];
     const shownProjects = Array.from(new Set(timeEntries.map(x => x.project_id)));
     shownProjects.sort((a, b) => findProjectName(a).localeCompare(findProjectName(b)));
 
@@ -34,7 +33,6 @@ export const TogglShow = ({ togglApiKey, range }) => {
                     <ProjectShow key={project}
                         projectId={project}
                         projectName={findProjectName(project)}
-                        header={header}
                         times={times}
                     ></ProjectShow>
                 )
