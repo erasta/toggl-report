@@ -3,7 +3,7 @@ import 'moment-duration-format';
 import { EmailCsv } from "./EmailCsv.js";
 import { FieldNameShow, TableShow } from "./TableShow.js";
 
-export const ProjectShow = ({ projectId, projectName, times }) => {
+export const ProjectShow = ({ projectId, projectName, times, range }) => {
     const header = ['description', 'start_time', 'stop_time', 'duration_time', 'hours_number'];
     const allDiffs = times.map(row => moment(row.stop).diff(moment(row.start)));
     const totalTime = allDiffs.reduce((pv, cv) => pv + cv, 0);
@@ -35,7 +35,7 @@ export const ProjectShow = ({ projectId, projectName, times }) => {
     const downloadTxtFile = () => {
         const element = document.createElement("a");
         element.href = URL.createObjectURL(new Blob([makeCsv()], { type: 'text/plain' }));
-        element.download = `${projectName}.csv`;
+        element.download = `${projectName}_${range.start}-${range.end}.csv`;
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
     }

@@ -34,6 +34,7 @@ export const TogglShow = ({ togglApiKey, range }) => {
                         projectId={project}
                         projectName={findProjectName(project)}
                         times={times}
+                        range={range}
                     ></ProjectShow>
                 )
             })}
