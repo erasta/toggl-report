@@ -27,12 +27,12 @@ export const TogglShow = ({ togglApiKey, range }) => {
     shownProjects.sort((a, b) => findProjectName(a).localeCompare(findProjectName(b)));
 
     return (
-        <div>
+        <div style={{margin: 2}}>
             {shownProjects.map(project => {
                 const times = timeEntries.filter(x => x.project_id === project);
                 return (
                     <ProjectShow key={project}
-                        project={project}
+                        projectId={project}
                         projectName={findProjectName(project)}
                         header={header}
                         times={times}
