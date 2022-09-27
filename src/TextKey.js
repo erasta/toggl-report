@@ -1,10 +1,16 @@
+import { Box, TextField } from "@mui/material"
+
 export const TextKey = ({ name, value, setValue }) => {
     return (
-        <>
-            <label htmlFor="api_key">{name}:</label>
-            <input type="password" id="api_key" name="api_key" required size="30"
+        <Box style={{ textAlign: 'right' }}>
+            <TextField
+                id="api_key"
+                label={name}
+                type="password"
+                size="small"
                 value={value}
-                onChange={e => setValue(e.target.value)}></input>
-        </>
+                onChange={e => setValue(e.target.value)}
+            />
+        </Box>
     )
 }

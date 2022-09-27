@@ -1,3 +1,4 @@
+import { Box, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ProjectShow } from "./ProjectShow.js";
 import { TogglFetch } from "./TogglFetch.js";
@@ -26,7 +27,7 @@ export const TogglShow = ({ togglApiKey, range }) => {
     shownProjects.sort((a, b) => findProjectName(a).localeCompare(findProjectName(b)));
 
     return (
-        <div style={{margin: 2}}>
+        <>
             {shownProjects.map(project => {
                 const times = timeEntries.filter(x => x.project_id === project);
                 return (
@@ -38,6 +39,6 @@ export const TogglShow = ({ togglApiKey, range }) => {
                     ></ProjectShow>
                 )
             })}
-        </div>
+        </>
     )
 }

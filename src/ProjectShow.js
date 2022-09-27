@@ -1,3 +1,4 @@
+import { Button, Card, Paper, Typography } from "@mui/material";
 import moment from "moment";
 import 'moment-duration-format';
 import { EmailCsv } from "./EmailCsv.js";
@@ -40,16 +41,16 @@ export const ProjectShow = ({ projectId, projectName, times, range }) => {
         element.click();
     }
 
+    // style={{ border: '2px solid grey', paddingBlockEnd: '1em', margin: 2 }}>
     return (
-        <div key={projectId} style={{ border: '2px solid grey', paddingBlockEnd: '1em', margin: 2 }}>
-            <h4 style={{ marginBlockEnd: 0 }}>{projectName}</h4>
+        <Paper key={projectId} elevation={3} sx={{ margin: '10px' }}>
+            <Typography variant="h5">{projectName}</Typography>
             total time: {totalTimeForm}&nbsp;
             as hours: {totalTimeHours}
             <TableShow fields={header} rows={times}></TableShow>
-            <br />
-            <button onClick={downloadTxtFile}>Download CSV</button>
-
+            <Button variant="contained" onClick={downloadTxtFile}>Download CSV</Button>
+            <hr />
             {/* <EmailCsv projectId={projectId} projectName={projectName} header={header} times={times} totalTime={totalTime}></EmailCsv> */}
-        </div>
+        </Paper>
     )
 }

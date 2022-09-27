@@ -1,3 +1,5 @@
+import { Button, ButtonGroup, Grid, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import { useEffect } from "react";
 
 export const DateRange = ({ range, setRange }) => {
@@ -15,17 +17,23 @@ export const DateRange = ({ range, setRange }) => {
     })
 
     return (
-        <>
-            <button onClick={() => setRange(timesMonth())}>This month</button>
-            <button onClick={() => setRange(timesMonth(-1))}>Prev month</button>
+        <Grid container direction="row" justifyContent="flex-start" alignItems="baseline" spacing={1}>
+            <Grid item>
+                <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                    <Button style={{ textTransform: 'none' }} onClick={() => setRange(timesMonth())}>This month</Button>
+                    <Button style={{ textTransform: 'none' }} onClick={() => setRange(timesMonth(-1))}>Prev month</Button>
+                </ButtonGroup>
+            </Grid>
             {range ?
-                <>
-                    {range.start}
-                    -
-                    {range.end}
-                </>
+                <Grid item>
+                    <Typography variant="body1" gutterBottom>
+                        {range.start}
+                        &nbsp;-&nbsp;
+                        {range.end}
+                    </Typography>
+                </Grid>
                 : null
             }
-        </>
+        </Grid>
     )
 }
