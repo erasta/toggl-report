@@ -1,5 +1,3 @@
-import moment from "moment";
-import 'moment-duration-format';
 import useLocalStorage from "use-local-storage";
 
 export const EmailCsv = ({ projectId, projectName, times, header, totalTime }) => {

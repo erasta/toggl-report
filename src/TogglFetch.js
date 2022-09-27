@@ -37,7 +37,7 @@ export class TogglFetch {
             row.stop_time = moment(row.stop).format('YYYY.MM.DD HH:mm:ss');
             const duration = moment.duration(moment(row.stop).diff(moment(row.start)));
             row.duration_time = duration.format('HH:mm:ss');
-            row.hours_number = Math.round(duration.asHours() * 100) / 100;
+            row.duration_hours = Math.round(duration.asHours() * 100) / 100;
         })
         return { times, projects };
     }

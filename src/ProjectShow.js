@@ -1,11 +1,10 @@
-import { Button, Card, Paper, Typography } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import moment from "moment";
 import 'moment-duration-format';
-import { EmailCsv } from "./EmailCsv.js";
 import { FieldNameShow, TableShow } from "./TableShow.js";
 
 export const ProjectShow = ({ projectId, projectName, times, range }) => {
-    const header = ['description', 'start_time', 'stop_time', 'duration_time', 'hours_number'];
+    const header = ['description', 'start_time', 'stop_time', 'duration_time', 'duration_hours'];
     const allDiffs = times.map(row => moment(row.stop).diff(moment(row.start)));
     const totalTime = allDiffs.reduce((pv, cv) => pv + cv, 0);
     const totalTimeForm = moment.duration(totalTime).format('HH:mm:ss');
@@ -41,7 +40,6 @@ export const ProjectShow = ({ projectId, projectName, times, range }) => {
         element.click();
     }
 
-    // style={{ border: '2px solid grey', paddingBlockEnd: '1em', margin: 2 }}>
     return (
         <Paper key={projectId} elevation={3} sx={{ margin: '10px' }}>
             <Typography variant="h5">{projectName}</Typography>
