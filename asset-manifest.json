@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/toggl-report/static/css/main.04a0130d.css",
-    "main.js": "/toggl-report/static/js/main.b306c4eb.js",
+    "main.js": "/toggl-report/static/js/main.020a38c8.js",
     "static/js/787.d0c38cdc.chunk.js": "/toggl-report/static/js/787.d0c38cdc.chunk.js",
     "index.html": "/toggl-report/index.html",
     "main.04a0130d.css.map": "/toggl-report/static/css/main.04a0130d.css.map",
-    "main.b306c4eb.js.map": "/toggl-report/static/js/main.b306c4eb.js.map",
+    "main.020a38c8.js.map": "/toggl-report/static/js/main.020a38c8.js.map",
     "787.d0c38cdc.chunk.js.map": "/toggl-report/static/js/787.d0c38cdc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.04a0130d.css",
-    "static/js/main.b306c4eb.js"
+    "static/js/main.020a38c8.js"
   ]
 }
