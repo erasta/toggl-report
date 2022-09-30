@@ -6,6 +6,7 @@ export class TogglFetch {
         this.auth = btoa(togglApiKey + `:api_token`);
         this.togglAxios = axios.create({
             baseURL: 'https://api.track.toggl.com/api/v9',
+            // "credentials": "omit",
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
@@ -15,10 +16,12 @@ export class TogglFetch {
     }
 
     async fetchTimes(start, end) {
-        const resp = await this.togglAxios.get('me/time_entries', { params: {
-            start_date: start,
-            end_date: end,
-        } });
+        const resp = await this.togglAxios.get('me/time_entries', {
+            params: {
+                start_date: start,
+                end_date: end,
+            }
+        });
         return resp.data;
     }
 
