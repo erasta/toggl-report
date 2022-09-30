@@ -1,28 +1,40 @@
+import axios from "axios";
 import moment from "moment";
 import 'moment-duration-format';
 export class TogglFetch {
     constructor(togglApiKey) {
         this.auth = btoa(togglApiKey + `:api_token`);
-        this.getparams = {
-            method: "GET",
+        this.instance = axios.create({
+            baseURL: 'https://api.track.toggl.com/api/v9',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 "Authorization": `Basic ${this.auth}`
-            }
-        };
+            },
+        });
+        // this.getparams = {
+        //     method: "GET",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     }
+        // };
     }
 
     async fetchTimes(start, end) {
-        const geturl = `https://api.track.toggl.com/api/v9/me/time_entries?start_date=${start}&end_date=${end}`;
-        const resp = await fetch(geturl, this.getparams);
-        const json = await resp.json();
+        const resp = await this.instance.get('me/time_entries', { params: {
+            start_date: start,
+            end_date: end,
+        } });
+        // const geturl = `https://api.track.toggl.com/api/v9/me/time_entries?start_date=${start}&end_date=${end}`;
+        // const resp = await axios.get(geturl, {}, this.getparams.headers);
+        const json = await resp.data;
         return json;
     }
 
     async fetchProjects() {
-        const geturl = `https://api.track.toggl.com/api/v9/me/projects`;
-        const resp = await fetch(geturl, this.getparams);
-        const json = await resp.json();
+        const resp = await this.instance.get('me/projects');
+        // const geturl = `https://api.track.toggl.com/api/v9/me/projects`;
+        // const resp = await axios.get(geturl, {}, this.getparams.headers);
+        const json = await resp.data;
         return json;
     }
 
