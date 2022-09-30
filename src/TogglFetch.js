@@ -6,6 +6,7 @@ export class TogglFetch {
         this.auth = btoa(togglApiKey + `:api_token`);
         this.togglAxios = axios.create({
             baseURL: 'https://api.track.toggl.com/api/v9',
+            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Basic ${this.auth}`
