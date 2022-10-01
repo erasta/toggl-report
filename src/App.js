@@ -25,12 +25,18 @@ function App() {
                 </Typography>
                 <TextKey name="Toggl API key" value={togglApiKey} setValue={setTogglApiKey}></TextKey>
                 <DateRange range={range} setRange={setRange}></DateRange>
-                <TogglShow togglApiKey={togglApiKey} range={range}></TogglShow>
+                <Box>
+                    <TogglShow togglApiKey={togglApiKey} range={range}></TogglShow>
+                </Box>
             </Box>
-            <Typography variant='body2' position={'absolute'} bottom={0} align='center' left={0} right={0}>
-                This app is not Affiliated with Toggl. Your data is used only locally.<br/>
-                <Link href="https://github.com/erasta/toggl-report">Source code on github   </Link>
-            </Typography>
+            <footer>
+                <Box left={0} right={0}>
+                    <Typography variant='body2' align='center'>
+                        This app is not Affiliated with Toggl. Your data is used only locally.<br />
+                        <Link href="https://github.com/erasta/toggl-report">Source code on github</Link>&nbsp;&copy;2022
+                    </Typography>
+                </Box>
+            </footer>
         </ThemeProvider>
     );
 }
