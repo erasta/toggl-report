@@ -30,16 +30,20 @@ export class TogglFetch {
     }
 
     async getTimes(start, end) {
-        const times = await this.fetchTimes(start, end);
-        const projects = await this.fetchProjects();
-        times.forEach(row => {
-            row.projectName = projects.find(proj => proj.id === row.project_id).name;
-            row.start_time = moment(row.start).format('YYYY.MM.DD HH:mm:ss');
-            row.stop_time = moment(row.stop).format('YYYY.MM.DD HH:mm:ss');
-            const duration = moment.duration(moment(row.stop).diff(moment(row.start)));
-            row.duration_time = duration.format('HH:mm:ss');
-            row.duration_hours = Math.round(duration.asHours() * 100) / 100;
-        })
-        return { times, projects };
+        try {
+            const times = await this.fetchTimes(start, end);
+            const projects = await this.fetchProjects();
+            times.forEach(row => {
+                row.projectName = projects.find(proj => proj.id === row.project_id).name;
+                row.start_time = moment(row.start).format('YYYY.MM.DD HH:mm:ss');
+                row.stop_time = moment(row.stop).format('YYYY.MM.DD HH:mm:ss');
+                const duration = moment.duration(moment(row.stop).diff(moment(row.start)));
+                row.duration_time = duration.format('HH:mm:ss');
+                row.duration_hours = Math.round(duration.asHours() * 100) / 100;
+            })
+            return { times, projects, error: false };
+        } catch (e) {
+            return { times: [], projects: [], error: e }
+        }
     }
 }

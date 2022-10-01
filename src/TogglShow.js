@@ -1,3 +1,4 @@
+import { Link, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ProjectShow } from "./ProjectShow.js";
 import { TogglFetch } from "./TogglFetch.js";
@@ -5,12 +6,14 @@ import { TogglFetch } from "./TogglFetch.js";
 export const TogglShow = ({ togglApiKey, range }) => {
     const [timeEntries, setTimeEntries] = useState([]);
     const [projectNames, setProjectNames] = useState([]);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         if (range) {
             (async () => {
                 const toggl = new TogglFetch(togglApiKey);
-                const { times, projects } = await toggl.getTimes(range.start, range.end);
+                const { times, projects, error } = await toggl.getTimes(range.start, range.end);
+                setError(!!error);
                 setProjectNames(projects);
                 setTimeEntries(times);
             })()
@@ -27,6 +30,17 @@ export const TogglShow = ({ togglApiKey, range }) => {
 
     return (
         <>
+            {error ?
+                <>
+                    <Typography variant="body1" color={'paleturquoise'} align="center">
+                        Please supply a correct&nbsp;
+                        <Link href="https://toggl.com/app/profile">
+                            Toggl API key
+                        </Link>
+                    </Typography>
+                </>
+                : null
+            }
             {shownProjects.map(project => {
                 const times = timeEntries.filter(x => x.project_id === project);
                 return (
